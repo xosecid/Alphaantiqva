@@ -7,76 +7,38 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Lato', sans-serif; 
-            background-color: #F0EEE9; 
-            color: #1A1A1A; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-        
-        h1, h2, h3, .descripcion-joya { 
-            font-family: 'Cormorant Garamond', serif; 
-            letter-spacing: 2px; 
-        }
-        
+        body { font-family: 'Lato', sans-serif; background-color: #F0EEE9; color: #1A1A1A; -webkit-tap-highlight-color: transparent; }
+        h1,h2,h3,.descripcion-joya { font-family: 'Cormorant Garamond', serif; letter-spacing: 2px; }
         .carousel-container { position: relative; width: 100%; overflow: hidden; }
-        .carousel {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            touch-action: pan-x;
-        }
-        .carousel::-webkit-scrollbar { display: none; }
-        .carousel-item { flex: 0 0 100%; width: 100%; scroll-snap-align: start; }
-        .carousel-item img { width: 100%; height: auto; aspect-ratio: 1 / 1.1; object-fit: cover; display: block; }
-
-        .overlay {
-            position: absolute; inset: 0; background-color: rgba(26, 26, 26, 0.4);
-            display: flex; align-items: center; justify-content: center;
-            padding: 1.5rem; opacity: 0; transition: opacity 0.4s ease; pointer-events: none;
-            z-index: 10;
-        }
-        @media (hover: hover) { .group:hover .overlay { opacity: 1; } }
-        .overlay.active { opacity: 1; pointer-events: auto; }
-
-        .zoom-btn {
-            position: absolute; top: 10px; right: 10px;
-            background: rgba(240, 238, 233, 0.8);
-            width: 30px; height: 30px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; font-size: 20px; font-weight: 300;
-            cursor: pointer; z-index: 20; transition: all 0.3s;
-        }
-
-        #zoom-modal { display: none; position: fixed; inset: 0; background: #F0EEE9; z-index: 100; overflow-y: auto; }
-        
-        .category-tab {
-            position: relative;
-            padding-bottom: 8px;
-            transition: color 0.3s;
-            font-family: 'Lato', sans-serif;
-        }
-        .category-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #1A1A1A;
-        }
+        .carousel { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; touch-action:pan-x; }
+        .carousel::-webkit-scrollbar{display:none;}
+        .carousel-item{flex:0 0 100%;width:100%;scroll-snap-align:start;}
+        .carousel-item img{width:100%;height:auto;aspect-ratio:1/1.1;object-fit:cover;display:block;}
+        .overlay{position:absolute;inset:0;background-color:rgba(26,26,26,0.4);display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;transition:opacity .4s;pointer-events:none;z-index:10;}
+        @media (hover:hover){.group:hover .overlay{opacity:1;}}
+        .overlay.active{opacity:1;pointer-events:auto;}
+        .zoom-btn{position:absolute;top:10px;right:10px;background:rgba(240,238,233,0.9);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:20px;font-weight:300;cursor:pointer;z-index:20;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,.12);}
+        .zoom-btn:active{transform:scale(.97);}
+        #zoom-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:20px;overflow:auto;}
+        #zoom-modal .modal-frame{max-width:1100px;width:100%;max-height:95vh;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.4);}
+        #zoom-modal .modal-header{background:#F0EEE9;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,.06);}
+        #zoom-modal .modal-body{padding:18px;display:flex;gap:12px;align-items:center;justify-content:center;}
+        #zoom-modal img.main{max-width:100%;max-height:70vh;object-fit:contain;border-radius:6px;display:block;}
+        .modal-arrow{font-size:32px;line-height:1;cursor:pointer;padding:6px 10px;border-radius:6px;background:rgba(0,0,0,.04);}
+        .thumbs{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;}
+        .thumbs img{width:72px;height:72px;object-fit:cover;border-radius:6px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);border:2px solid transparent;}
+        .thumbs img.active{border-color:#1A1A1A;}
+        .category-tab{position:relative;padding-bottom:8px;transition:color .3s;font-family:'Lato',sans-serif;}
+        .category-tab.active::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background-color:#1A1A1A;}
+        @media (max-width:640px){#zoom-modal .modal-body{flex-direction:column;padding:12px;} .thumbs img{width:56px;height:56px;} #zoom-modal img.main{max-height:55vh;}}
     </style>
 </head>
 <body>
-
     <header class="pt-12 pb-6 px-6 text-center tracking-[0.3em]">
         <h1 class="text-3xl md:text-5xl mb-2 italic font-semibold">Alpha Antiqva</h1>
         <p class="text-[10px] uppercase tracking-[0.5em] text-gray-500">Joyas & relojes antiguos</p>
     </header>
-
     <hr class="border-t border-gray-200 w-full max-w-6xl mx-auto opacity-60">
-
     <nav class="flex justify-center gap-6 md:gap-12 py-6 text-[11px] md:text-xs uppercase tracking-[0.2em] sticky top-0 bg-[#F0EEE9]/95 backdrop-blur-sm z-40">
         <button onclick="filterCategory('todo')" class="category-tab active" id="tab-todo">Todo</button>
         <button onclick="filterCategory('anillos')" class="category-tab" id="tab-anillos">Anillos</button>
@@ -84,19 +46,14 @@
         <button onclick="filterCategory('relojes')" class="category-tab" id="tab-relojes">Relojes</button>
         <button onclick="filterCategory('broches')" class="category-tab" id="tab-broches">Broches</button>
     </nav>
-
     <main class="max-w-6xl mx-auto px-2 md:px-4 mt-8">
         <div id="catalog-grid" class="grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-12">
-            
             <div class="group relative item-anillos" onclick="toggleOverlay(this, event)">
-                <div class="zoom-btn" onclick="openZoom(['https://i.ibb.co/VYSgj9d6/Whats-App-Image-2026-02-02-at-22-39-07.jpg
-','https://i.ibb.co/yx9SQzC/Whats-App-Image-2026-02-02-at-22-39-07-1.jpg
-'], event)">+</div>
+                <div class="zoom-btn" onclick="openZoom(this, event)">+</div>
                 <div class="carousel-container">
                     <div class="carousel">
                         <div class="carousel-item"><img src="https://i.ibb.co/VYSgj9d6/Whats-App-Image-2026-02-02-at-22-39-07.jpg" alt="Anillo"></div>
-<div class="carousel-item"><img src="https://i.ibb.co/yx9SQzC/Whats-App-Image-2026-02-02-at-22-39-07-1.jpg" alt="Anillo"></div>
-
+                        <div class="carousel-item"><img src="https://i.ibb.co/yx9SQzC/Whats-App-Image-2026-02-02-at-22-39-07-1.jpg" alt="Anillo"></div>
                     </div>
                     <div class="overlay">
                         <p class="descripcion-joya text-white text-center text-xs md:text-sm italic font-light leading-relaxed">
@@ -109,22 +66,34 @@
                     <a href="#" target="_blank" class="inline-block mt-2 text-[10px] uppercase tracking-[0.2em] border-b border-[#1A1A1A] pb-1">Instagram</a>
                 </div>
             </div>
-
         </div>
     </main>
-
-    <div id="zoom-modal">
-        <div class="sticky top-0 bg-[#F0EEE9] p-4 flex justify-between items-center border-b z-50">
-            <span class="text-[10px] uppercase tracking-widest text-gray-400">Detalle de Pieza</span>
-            <button onclick="closeZoom()" class="text-2xl font-light">&times;</button>
+    <!-- MODAL / VISOR -->
+    <div id="zoom-modal" aria-hidden="true">
+        <div class="modal-frame" role="dialog" aria-modal="true" aria-label="Visor de imagen">
+            <div class="modal-header">
+                <span class="text-[10px] uppercase tracking-widest text-gray-400">Detalle de Pieza</span>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <button id="prev-btn" class="modal-arrow" aria-label="Anterior">&lsaquo;</button>
+                    <button id="next-btn" class="modal-arrow" aria-label="Siguiente">&rsaquo;</button>
+                    <button onclick="closeZoom()" class="text-2xl font-light" aria-label="Cerrar">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div style="flex:1; display:flex; align-items:center; justify-content:center;">
+                    <img id="zoom-main-image" class="main" src="" alt="Detalle">
+                </div>
+                <div style="width:240px; max-width:30%; min-width:120px;">
+                    <div class="thumbs" id="zoom-thumbs" aria-hidden="false"></div>
+                </div>
+            </div>
         </div>
-        <div id="modal-content" class="max-w-4xl mx-auto p-4 space-y-4"></div>
     </div>
-
     <script>
         function filterCategory(category) {
             document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
-            document.getElementById('tab-' + category).classList.add('active');
+            const tabEl = document.getElementById('tab-' + category);
+            if(tabEl) tabEl.classList.add('active');
             const items = document.querySelectorAll('#catalog-grid > div');
             items.forEach(item => {
                 if (category === 'todo' || item.classList.contains('item-' + category)) {
@@ -134,32 +103,71 @@
                 }
             });
         }
-
         function toggleOverlay(element, event) {
             if (event.target.closest('.zoom-btn') || event.target.closest('a')) return;
             const overlay = element.querySelector('.overlay');
             document.querySelectorAll('.overlay.active').forEach(active => active !== overlay && active.classList.remove('active'));
             overlay.classList.toggle('active');
         }
-
-        function openZoom(images, event) {
+        let currentZoomIndex = 0;
+        let currentImages = [];
+        let keyHandler = null;
+        function openZoom(buttonEl, event) {
             event.stopPropagation();
+            const group = buttonEl.closest('.group');
+            if (!group) return;
+            const imgs = Array.from(group.querySelectorAll('.carousel-item img')).map(img => img.src).filter(Boolean);
+            if (imgs.length === 0) return;
+            currentImages = imgs;
+            currentZoomIndex = 0;
             const modal = document.getElementById('zoom-modal');
-            const content = document.getElementById('modal-content');
-            content.innerHTML = '';
-            images.forEach(src => {
-                const img = document.createElement('img');
-                img.src = src;
-                img.className = "w-full h-auto mb-6 shadow-sm";
-                content.appendChild(img);
+            const main = document.getElementById('zoom-main-image');
+            const thumbs = document.getElementById('zoom-thumbs');
+            thumbs.innerHTML = '';
+            currentImages.forEach((src, i) => {
+                const t = document.createElement('img');
+                t.src = src;
+                t.alt = 'Miniatura ' + (i+1);
+                t.addEventListener('click', () => { showZoomImage(i); });
+                thumbs.appendChild(t);
             });
-            modal.style.display = 'block';
+            showZoomImage(currentZoomIndex);
+            modal.style.display = 'flex';
+            modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
+            keyHandler = function(e) {
+                if (e.key === 'Escape') closeZoom();
+                if (e.key === 'ArrowRight') nextZoom();
+                if (e.key === 'ArrowLeft') prevZoom();
+            };
+            document.addEventListener('keydown', keyHandler);
         }
-
+        function showZoomImage(index) {
+            const main = document.getElementById('zoom-main-image');
+            const thumbs = document.getElementById('zoom-thumbs').querySelectorAll('img');
+            if (!currentImages || currentImages.length === 0) return;
+            if (index < 0) index = 0;
+            if (index >= currentImages.length) index = currentImages.length - 1;
+            currentZoomIndex = index;
+            main.src = currentImages[currentZoomIndex];
+            thumbs.forEach((t, i) => { t.classList.toggle('active', i === currentZoomIndex); });
+        }
+        function nextZoom() { showZoomImage(currentZoomIndex + 1); }
+        function prevZoom() { showZoomImage(currentZoomIndex - 1); }
         function closeZoom() {
-            document.getElementById('zoom-modal').style.display = 'none';
+            const modal = document.getElementById('zoom-modal');
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = 'auto';
+            currentImages = [];
+            currentZoomIndex = 0;
+            if (keyHandler) { document.removeEventListener('keydown', keyHandler); keyHandler = null; }
         }
+        document.getElementById('next-btn')?.addEventListener('click', nextZoom);
+        document.getElementById('prev-btn')?.addEventListener('click', prevZoom);
+        document.getElementById('zoom-modal').addEventListener('click', function(e) {
+            const frame = this.querySelector('.modal-frame'); if (!frame) return; if (!frame.contains(e.target)) closeZoom();
+        });
     </script>
 </body>
+</html>
