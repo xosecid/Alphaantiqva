@@ -40,31 +40,43 @@
       user-select:none;
     }
 
-    /* overlay description */
-.desc-overlay {
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  text-align:center;
-  color:white;
-  background:rgba(0,0,0,0.55);
-  opacity:0;
-  transition:opacity .25s ease;
-  pointer-events:none;
-  border-radius:6px;
+    /* overlay description using the title font */
+    .desc-overlay {
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      text-align:center;
+      color:white;
+      background:rgba(0,0,0,0.55);
+      opacity:0;
+      transition:opacity .25s ease;
+      pointer-events:none;
+      border-radius:6px;
 
-  font-family: 'Cormorant Garamond', serif;
-  font-size:16px;
-  font-style: italic;
-  letter-spacing: 1.5px;
-  line-height:1.5;
-}
+      font-family: 'Cormorant Garamond', serif;
+      font-size:16px;
+      font-style: italic;
+      letter-spacing: 1.5px;
+      line-height:1.5;
+    }
     .desc-overlay.active {
       opacity:1;
       pointer-events:auto;
+    }
+
+    .desc-overlay a.whatsapp-link {
+      display:inline-block;
+      margin-top:10px;
+      padding:8px 12px;
+      background:#25D366;
+      color:#fff;
+      text-decoration:none;
+      border-radius:6px;
+      font-weight:600;
+      font-size:14px;
     }
 
     .zoom-btn {
@@ -88,7 +100,6 @@
     .category-tab { position:relative; padding-bottom:6px; cursor:pointer; font-size:12px; text-transform:uppercase; letter-spacing:0.18em; }
     .category-tab.active::after { content:''; position:absolute; left:0; bottom:0; width:100%; height:2px; background:var(--text); }
 
-    /* modal */
     #zoom-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999; align-items:center; justify-content:center; padding:24px; }
     .modal-frame { max-width:1100px; width:100%; max-height:92vh; background:#fff; border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
     .modal-header { display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg); border-bottom:1px solid rgba(0,0,0,0.06); }
@@ -133,11 +144,10 @@
         <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242980/WhatsApp_Image_2026-02-02_at_22.39.08_jjrlaw.jpg" alt="Anillo 1 - 1">
-            <!-- overlay injected by JS -->
+            <!-- overlay will be injected -->
           </div>
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770285886/WhatsApp_Image_2026-02-02_at_22.39.08_1_giy3jt.jpg" alt="Anillo 1 - 2">
-            <!-- overlay injected by JS -->
           </div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo 1</h3></div>
@@ -149,7 +159,6 @@
         <div class="carousel">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242980/WhatsApp_Image_2026-02-02_at_22.39.08_5_hnt6qm.jpg" alt="Anillo 2">
-            <!-- overlay injected by JS -->
           </div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo 2</h3></div>
@@ -277,44 +286,85 @@
       "Sortija romántica con motivos florales y brillantes."
     ];
 
-    /* === Overlay + toggle logic === */
+    /* === Reemplaza por tu número en formato internacional (sin + ni espacios) === */
+    const YOUR_WHATSAPP_NUMBER = 34695886365;
+
+    function buildWhatsappUrl(number, text) {
+      // If user provided a phone number, use wa.me to open chat with that number
+      // Otherwise use api.whatsapp.com/send?text= which doesn't target a specific number.
+      const encoded = encodeURIComponent(text);
+      if (number && number !== "YOUR_PHONE_NUMBER") {
+        return `https://wa.me/${number}?text=${encoded}`;
+      } else {
+        // opens WhatsApp Web / App with message (user will select contact)
+        return `https://api.whatsapp.com/send?text=${encoded}`;
+      }
+    }
+
+    /* === Overlay + toggle logic + WhatsApp link injection === */
     document.addEventListener('DOMContentLoaded', () => {
-      // stop propagation on zoom buttons so clicking + doesn't toggle overlay accidentally
+      // prevent zoom button click from toggling overlay
       document.querySelectorAll('.zoom-btn').forEach(btn => {
-        btn.addEventListener('click', e => { e.stopPropagation(); /* allow onclick attr to run */ });
+        btn.addEventListener('click', e => { e.stopPropagation(); /* onclick attr still runs */ });
       });
 
       // For every carousel-item, add a description overlay (random) and toggle on click
-      document.querySelectorAll('.carousel-item').forEach(ci => {
+      document.querySelectorAll('.carousel-item').forEach((ci, idx) => {
         // choose random description
         const desc = descriptions[Math.floor(Math.random() * descriptions.length)];
 
-        // create overlay element
+        // determine corresponding modal image url to include in message:
+        // If the carousel-item has an image, try to find a matching modal image.
+        const imgEl = ci.querySelector('img');
+        const imgSrc = imgEl ? imgEl.src.replace('/w_800,q_auto,f_auto/', '/w_1200,q_auto,f_auto/') : '';
+
+        // create overlay element (with WhatsApp link)
         const overlay = document.createElement('div');
         overlay.className = 'desc-overlay';
-        overlay.textContent = desc;
+
+        // Build WhatsApp message text
+        const messageText = `Hola! estoy interesado en esta pieza. Imagen: ${imgSrc}`;
+
+        // Build URL (uses YOUR_WHATSAPP_NUMBER constant)
+        const waUrl = buildWhatsappUrl(YOUR_WHATSAPP_NUMBER, messageText);
+
+        // Set inner HTML: description + whatsapp link. The link has target=_blank.
+        overlay.innerHTML = `<div>
+          <div>${desc}</div>
+          <a class="whatsapp-link" href="${waUrl}" target="_blank" rel="noopener" data-img="${imgSrc}">Contactar por WhatsApp</a>
+        </div>`;
 
         // append overlay to carousel-item
         ci.appendChild(overlay);
 
-        // clicking the image / carousel-item toggles overlay
+        // clicking the carousel-item toggles overlay
         ci.addEventListener('click', (e) => {
-          // If the click came from the zoom button, ignore (zoom-btn has stopPropagation)
+          // toggle active class
           overlay.classList.toggle('active');
         });
 
-        // clicking on overlay hides it (and avoid bubbling)
+        // clicking on overlay link shouldn't close overlay: stop propagation on link
+        const link = overlay.querySelector('a.whatsapp-link');
+        if (link) {
+          link.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // allow default navigation to WhatsApp (opens new tab)
+            // (we could also open via window.open if desired)
+          });
+        }
+
+        // clicking directly on overlay itself closes it
         overlay.addEventListener('click', (e) => {
           e.stopPropagation();
           overlay.classList.remove('active');
         });
       });
 
-      // modal control wiring (same as before)
+      // modal control wiring (existing behavior)
       renderInitialState();
     });
 
-    /* === Modal / zoom logic (kept from previous working code) === */
+    /* === Modal code (unchanged from your working implementation) === */
     let currentProduct = 0;
     let currentIndex = 0;
     let keyHandler = null;
@@ -386,7 +436,7 @@
       updateModalImage();
     }
 
-    // hook modal controls
+    // modal controls
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('next-btn').addEventListener('click', nextImage);
       document.getElementById('prev-btn').addEventListener('click', prevImage);
