@@ -67,16 +67,22 @@
       pointer-events:auto;
     }
 
+    /* whatsapp icon style (white, circular) */
     .desc-overlay a.whatsapp-link {
-      display:inline-block;
-      margin-top:10px;
-      padding:8px 12px;
-      background:#25D366;
-      color:#fff;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:14px;
+      width:38px;
+      height:38px;
+      border-radius:50%;
       text-decoration:none;
-      border-radius:6px;
-      font-weight:600;
-      font-size:14px;
+      color:white;
+      border:1px solid rgba(255,255,255,0.6);
+      transition:all 0.25s ease;
+    }
+    .desc-overlay a.whatsapp-link:hover {
+      background:rgba(255,255,255,0.12);
     }
 
     .zoom-btn {
@@ -144,7 +150,6 @@
         <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242980/WhatsApp_Image_2026-02-02_at_22.39.08_jjrlaw.jpg" alt="Anillo 1 - 1">
-            <!-- overlay will be injected -->
           </div>
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770285886/WhatsApp_Image_2026-02-02_at_22.39.08_1_giy3jt.jpg" alt="Anillo 1 - 2">
@@ -156,7 +161,7 @@
       <!-- ANILLO 2 -->
       <div class="item item-anillos" data-index="1">
         <div class="zoom-btn" onclick="openZoom(1,0)">+</div>
-        <div class="carousel">
+        <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242980/WhatsApp_Image_2026-02-02_at_22.39.08_5_hnt6qm.jpg" alt="Anillo 2">
           </div>
@@ -167,7 +172,7 @@
       <!-- ANILLO 3 -->
       <div class="item item-anillos" data-index="2">
         <div class="zoom-btn" onclick="openZoom(2,0)">+</div>
-        <div class="carousel">
+        <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242979/WhatsApp_Image_2026-02-02_at_22.39.08_4_f45awm.jpg" alt="Anillo 3">
           </div>
@@ -178,7 +183,7 @@
       <!-- ANILLO 4 -->
       <div class="item item-anillos" data-index="3">
         <div class="zoom-btn" onclick="openZoom(3,0)">+</div>
-        <div class="carousel">
+        <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242978/WhatsApp_Image_2026-02-02_at_22.39.08_2_azuxli.jpg" alt="Anillo 4">
           </div>
@@ -189,7 +194,7 @@
       <!-- ANILLO 5 (2 imágenes) -->
       <div class="item item-anillos" data-index="4">
         <div class="zoom-btn" onclick="openZoom(4,0)">+</div>
-        <div class="carousel">
+        <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242978/WhatsApp_Image_2026-02-02_at_22.39.07_iveaie.jpg" alt="Anillo 5 - 1">
           </div>
@@ -203,7 +208,7 @@
       <!-- ANILLO 6 -->
       <div class="item item-anillos" data-index="5">
         <div class="zoom-btn" onclick="openZoom(5,0)">+</div>
-        <div class="carousel">
+        <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242978/WhatsApp_Image_2026-02-02_at_22.39.07_4_bkx5qw.jpg" alt="Anillo 6">
           </div>
@@ -214,7 +219,7 @@
       <!-- ANILLO 7 -->
       <div class="item item-anillos" data-index="6">
         <div class="zoom-btn" onclick="openZoom(6,0)">+</div>
-        <div class="carousel">
+        <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
             <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1770242977/WhatsApp_Image_2026-02-02_at_22.39.07_2_hly2ko.jpg" alt="Anillo 7">
           </div>
@@ -287,84 +292,111 @@
     ];
 
     /* === Reemplaza por tu número en formato internacional (sin + ni espacios) === */
-    const YOUR_WHATSAPP_NUMBER = 34695886365;
+    const YOUR_WHATSAPP_NUMBER = "YOUR_PHONE_NUMBER";
 
     function buildWhatsappUrl(number, text) {
-      // If user provided a phone number, use wa.me to open chat with that number
-      // Otherwise use api.whatsapp.com/send?text= which doesn't target a specific number.
       const encoded = encodeURIComponent(text);
       if (number && number !== "YOUR_PHONE_NUMBER") {
         return `https://wa.me/${number}?text=${encoded}`;
       } else {
-        // opens WhatsApp Web / App with message (user will select contact)
         return `https://api.whatsapp.com/send?text=${encoded}`;
       }
     }
 
-    /* === Overlay + toggle logic + WhatsApp link injection === */
+    /* === INIT: overlay insertion, whatsapp link and interactions === */
     document.addEventListener('DOMContentLoaded', () => {
-      // prevent zoom button click from toggling overlay
+      // Prevent zoom button clicks from toggling overlays
       document.querySelectorAll('.zoom-btn').forEach(btn => {
-        btn.addEventListener('click', e => { e.stopPropagation(); /* onclick attr still runs */ });
+        btn.addEventListener('click', e => { e.stopPropagation(); /* inline onclick will still run */ });
       });
 
-      // For every carousel-item, add a description overlay (random) and toggle on click
-      document.querySelectorAll('.carousel-item').forEach((ci, idx) => {
-        // choose random description
-        const desc = descriptions[Math.floor(Math.random() * descriptions.length)];
+      // For each product item, add overlays to its carousel items
+      document.querySelectorAll('.item').forEach(item => {
+        const productIndex = Number(item.dataset.index ?? -1);
+        const carouselItems = item.querySelectorAll('.carousel-item');
 
-        // determine corresponding modal image url to include in message:
-        // If the carousel-item has an image, try to find a matching modal image.
-        const imgEl = ci.querySelector('img');
-        const imgSrc = imgEl ? imgEl.src.replace('/w_800,q_auto,f_auto/', '/w_1200,q_auto,f_auto/') : '';
+        carouselItems.forEach((ci, imgIdx) => {
+          // pick random description
+          const desc = descriptions[Math.floor(Math.random() * descriptions.length)];
 
-        // create overlay element (with WhatsApp link)
-        const overlay = document.createElement('div');
-        overlay.className = 'desc-overlay';
+          // determine modal image URL for this exact image (fallback to transforming src)
+          let modalImgUrl = '';
+          if (productsImages[productIndex] && productsImages[productIndex][imgIdx]) {
+            modalImgUrl = productsImages[productIndex][imgIdx];
+          } else {
+            // fallback: try to upgrade w_800 to w_1200 if pattern exists
+            const imgEl = ci.querySelector('img');
+            if (imgEl && typeof imgEl.src === 'string') {
+              modalImgUrl = imgEl.src.replace('/w_800,q_auto,f_auto/', '/w_1200,q_auto,f_auto/');
+            } else {
+              modalImgUrl = '';
+            }
+          }
 
-        // Build WhatsApp message text
-        const messageText = `Hola! estoy interesado en esta pieza. Imagen: ${imgSrc}`;
+          const messageText = `Hola! estoy interesado en esta pieza. Imagen: ${modalImgUrl}`;
+          const waUrl = buildWhatsappUrl(YOUR_WHATSAPP_NUMBER, messageText);
 
-        // Build URL (uses YOUR_WHATSAPP_NUMBER constant)
-        const waUrl = buildWhatsappUrl(YOUR_WHATSAPP_NUMBER, messageText);
+          // create overlay element with description + whatsapp icon link
+          const overlay = document.createElement('div');
+          overlay.className = 'desc-overlay';
+          overlay.innerHTML = `<div>
+              <div>${desc}</div>
+              <a class="whatsapp-link" href="${waUrl}" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                  <path d="M19.11 17.44c-.29-.14-1.71-.84-1.97-.94-.26-.10-.45-.14-.64.14-.19.29-.74.94-.91 1.13-.17.19-.34.21-.63.07-.29-.14-1.23-.45-2.34-1.43-.86-.77-1.44-1.71-1.61-2-.17-.29-.02-.45.13-.59.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.10-.19.05-.36-.02-.51-.07-.14-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.03 2.79 1.17 2.98.14.19 2.03 3.1 4.93 4.35.69.30 1.23.48 1.65.61.69.22 1.31.19 1.81.12.55-.08 1.71-.70 1.95-1.38.24-.67.24-1.25.17-1.38-.07-.13-.26-.21-.55-.36z"/>
+                  <path d="M16.02 2.67C8.68 2.67 2.67 8.68 2.67 16c0 2.59.74 5.11 2.14 7.27L2 30l6.95-2.73c2.05 1.12 4.37 1.71 6.78 1.71 7.34 0 13.35-6.01 13.35-13.35 0-7.32-6.01-13.35-13.35-13.35zm0 23.7c-2.19 0-4.33-.59-6.18-1.71l-.44-.26-4.12 1.62 1.61-4.01-.29-.41c-1.18-1.79-1.8-3.88-1.8-6.03 0-6.11 4.97-11.09 11.09-11.09 6.11 0 11.09 4.97 11.09 11.09 0 6.11-4.98 11.09-11.09 11.09z"/>
+                </svg>
+              </a>
+            </div>`;
 
-        // Set inner HTML: description + whatsapp link. The link has target=_blank.
-        overlay.innerHTML = `<div>
-          <div>${desc}</div>
-          <a class="whatsapp-link" href="${waUrl}" target="_blank" rel="noopener" data-img="${imgSrc}">Contactar por WhatsApp</a>
-        </div>`;
+          // append overlay
+          ci.appendChild(overlay);
 
-        // append overlay to carousel-item
-        ci.appendChild(overlay);
-
-        // clicking the carousel-item toggles overlay
-        ci.addEventListener('click', (e) => {
-          // toggle active class
-          overlay.classList.toggle('active');
-        });
-
-        // clicking on overlay link shouldn't close overlay: stop propagation on link
-        const link = overlay.querySelector('a.whatsapp-link');
-        if (link) {
-          link.addEventListener('click', (e) => {
-            e.stopPropagation();
-            // allow default navigation to WhatsApp (opens new tab)
-            // (we could also open via window.open if desired)
+          // toggle overlay on carousel-item click
+          ci.addEventListener('click', (e) => {
+            overlay.classList.toggle('active');
           });
-        }
 
-        // clicking directly on overlay itself closes it
-        overlay.addEventListener('click', (e) => {
-          e.stopPropagation();
-          overlay.classList.remove('active');
+          // clicking overlay itself should close it (and not bubble)
+          overlay.addEventListener('click', (e) => {
+            e.stopPropagation();
+            overlay.classList.remove('active');
+          });
+
+          // whatsapp link should not close overlay; stop propagation so overlay stays if user taps link
+          const link = overlay.querySelector('a.whatsapp-link');
+          if (link) {
+            link.addEventListener('click', (e) => {
+              e.stopPropagation();
+              // allow default (opens in new tab/window)
+            });
+          }
         });
       });
 
-      // modal control wiring (existing behavior)
+      // modal: attach control listeners once
+      const nextBtn = document.getElementById('next-btn');
+      const prevBtn = document.getElementById('prev-btn');
+      if (nextBtn && prevBtn) {
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+      }
+
+      // click outside modal frame closes
+      const zoomModal = document.getElementById('zoom-modal');
+      if (zoomModal) {
+        zoomModal.addEventListener('click', function(e) {
+          const frame = this.querySelector('.modal-frame');
+          if (!frame) return;
+          if (!frame.contains(e.target)) closeZoom();
+        });
+      }
+
+      // initial view
       renderInitialState();
     });
 
-    /* === Modal code (unchanged from your working implementation) === */
+    /* === Modal code (unchanged) === */
     let currentProduct = 0;
     let currentIndex = 0;
     let keyHandler = null;
@@ -435,17 +467,6 @@
       currentIndex = (currentIndex - 1 + imgs.length) % imgs.length;
       updateModalImage();
     }
-
-    // modal controls
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('next-btn').addEventListener('click', nextImage);
-      document.getElementById('prev-btn').addEventListener('click', prevImage);
-      document.getElementById('zoom-modal').addEventListener('click', function(e) {
-        const frame = this.querySelector('.modal-frame');
-        if (!frame) return;
-        if (!frame.contains(e.target)) closeZoom();
-      });
-    });
 
     /* === Filters (kept) === */
     function filterCategory(category) {
