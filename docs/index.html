@@ -144,21 +144,55 @@
   <main>
     <div id="catalog-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6">
 
-      <!-- ANILLO (solo este) -->
+      <!-- 0: Anillo Roseta y diamantes -->
       <div class="item item-anillos" data-index="0">
         <div class="zoom-btn" onclick="openZoom(0,0)">+</div>
         <div class="carousel" aria-hidden="false">
           <div class="carousel-item">
-            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363353/IMG_8184_lrw67a.heic" alt="Anillo Roseta y diamantes - portada">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363353/IMG_8184_lrw67a.heic" alt="Anillo Roseta - portada">
           </div>
           <div class="carousel-item">
-            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363354/IMG_8193_nwksub.heic" alt="Anillo Roseta y diamantes - 2">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363354/IMG_8193_nwksub.heic" alt="Anillo Roseta - 2">
           </div>
           <div class="carousel-item">
-            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363352/IMG_8186_ek1a82.heic" alt="Anillo Roseta y diamantes - 3">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363352/IMG_8186_ek1a82.heic" alt="Anillo Roseta - 3">
           </div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo Roseta y diamantes 790€</h3></div>
+      </div>
+
+      <!-- 1: Pendientes flor de plata -->
+      <div class="item item-pendientes" data-index="1">
+        <div class="zoom-btn" onclick="openZoom(1,0)">+</div>
+        <div class="carousel" aria-hidden="false">
+          <div class="carousel-item">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364336/IMG_8011_w7wtrn.heic" alt="Pendientes - portada">
+          </div>
+          <div class="carousel-item">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364337/IMG_8012_aah1di.heic" alt="Pendientes - 2">
+          </div>
+          <div class="carousel-item">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364337/IMG_8014_nlqmvx.heic" alt="Pendientes - 3">
+          </div>
+        </div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Pendientes flor de plata 275€</h3></div>
+      </div>
+
+      <!-- 2: Anillo solitario con diamante -->
+      <div class="item item-anillos" data-index="2">
+        <div class="zoom-btn" onclick="openZoom(2,0)">+</div>
+        <div class="carousel" aria-hidden="false">
+          <div class="carousel-item">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364554/IMG_8204_i9nuxt.heic" alt="Anillo solitario - portada">
+          </div>
+          <div class="carousel-item">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364554/IMG_8209_ulggca.heic" alt="Anillo solitario - 2">
+          </div>
+          <div class="carousel-item">
+            <img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364554/IMG_8207_yha6ap.heic" alt="Anillo solitario - 3">
+          </div>
+        </div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo solitario con diamante 390€</h3></div>
       </div>
 
     </div>
@@ -193,15 +227,29 @@
         "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771363353/IMG_8184_lrw67a.heic",
         "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771363354/IMG_8193_nwksub.heic",
         "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771363352/IMG_8186_ek1a82.heic"
+      ],
+      [
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364336/IMG_8011_w7wtrn.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364337/IMG_8012_aah1di.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364337/IMG_8014_nlqmvx.heic"
+      ],
+      [
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364554/IMG_8204_i9nuxt.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364554/IMG_8209_ulggca.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364554/IMG_8207_yha6ap.heic"
       ]
     ];
 
-    /* === Descripción/Metadatos del anillo (usados en overlay y en mensaje) */
+    /* === Titles & Descriptions per product === */
     const productTitles = [
-      "Anillo Roseta y diamantes 790€"
+      "Anillo Roseta y diamantes 790€",
+      "Pendientes flor de plata 275€",
+      "Anillo solitario con diamante 390€"
     ];
     const productDescriptions = [
-      "Anillo roseta de oro 18 quilates y diamantes"
+      "Anillo roseta de oro 18 quilates y diamantes",
+      "Pendientes flor plata con filo de oro y zafiros blancos",
+      "Anillo solitario con diamante y base rayada en platino y oro de 18 quilates"
     ];
 
     /* === Reemplaza por tu número en formato internacional (sin + ni espacios) === */
@@ -223,13 +271,13 @@
         btn.addEventListener('click', e => { e.stopPropagation(); /* inline onclick will still run */ });
       });
 
-      // For this single product item (and future ones), add overlays to its carousel items
+      // For each product item, add overlays to its carousel items
       document.querySelectorAll('.item').forEach(item => {
         const productIndex = Number(item.dataset.index ?? -1);
         const carouselItems = item.querySelectorAll('.carousel-item');
 
         carouselItems.forEach((ci, imgIdx) => {
-          // use the product-specific description (not random)
+          // use the product-specific description
           const desc = productDescriptions[productIndex] || "Joya de colección, acabado a mano.";
 
           // determine modal image URL for this exact image
