@@ -14,13 +14,13 @@
     h1,h3,.descripcion-joya { font-family:'Cormorant Garamond',serif; letter-spacing:2px; margin:0; }
 
     header { padding-top:3rem; padding-bottom:.5rem; text-align:center; }
-    main { max-width:1100px; margin:0 auto; padding:0 16px 40px; }
+    main { max-width:1200px; margin:0 auto; padding:0 16px 40px; }
     nav { display:flex; justify-content:center; gap:18px; padding:20px 0; position:sticky; top:0; background:rgba(240,238,233,0.92); z-index:40; backdrop-filter:blur(6px); }
     .category-tab { position:relative; padding-bottom:6px; cursor:pointer; font-size:12px; text-transform:uppercase; }
     .category-tab.active::after { content:''; position:absolute; left:0; bottom:0; width:100%; height:2px; background:var(--text); }
 
     #catalog-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; padding:24px 0; }
-    @media(min-width:768px){ #catalog-grid { grid-template-columns:repeat(3,1fr); } }
+    @media(min-width:900px){ #catalog-grid { grid-template-columns:repeat(3,1fr); } }
 
     .item { position:relative; overflow:visible; }
     .meta { margin-top:12px; text-align:center; }
@@ -33,36 +33,39 @@
     /* overlay (description) */
     .desc-overlay {
       position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-      padding:18px; text-align:center; color:white; background:rgba(0,0,0,0.62);
+      padding:18px; text-align:center; color:white; background:rgba(0,0,0,0.55);
       opacity:0; transition:opacity .22s ease; pointer-events:none; border-radius:6px;
       font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; line-height:1.5;
-      z-index:100;
+      z-index:25;
+      flex-direction:column;
     }
     .desc-overlay.active { opacity:1; pointer-events:auto; }
 
-    .desc-overlay .wa-wrap { margin-top:12px; display:flex; justify-content:center; }
+    .desc-overlay .wa-wrap { margin-top:12px; display:flex; justify-content:center; gap:10px; }
     .desc-overlay a.whatsapp-link {
       display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%;
-      color:white; border:1px solid rgba(255,255,255,0.7); text-decoration:none; background:transparent;
+      color:white; border:1px solid rgba(255,255,255,0.6); text-decoration:none; background:transparent;
     }
     .desc-overlay a.whatsapp-link:hover { background:rgba(255,255,255,0.08); }
 
     .zoom-btn {
       position:absolute; top:10px; right:10px; width:36px; height:36px; border-radius:50%;
       background:rgba(240,238,233,0.95); display:flex; align-items:center; justify-content:center;
-      cursor:pointer; z-index:110; box-shadow:0 6px 18px rgba(0,0,0,0.08);
+      cursor:pointer; z-index:30; box-shadow:0 6px 18px rgba(0,0,0,0.08);
     }
 
     /* modal / zoom viewer */
-    #zoom-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center; padding:24px; }
-    .modal-frame { max-width:1100px; width:100%; max-height:92vh; background:#fff; border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
+    #zoom-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999; align-items:center; justify-content:center; padding:24px; }
+    .modal-frame { max-width:1200px; width:100%; max-height:92vh; background:#fff; border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
     .modal-header { display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--bg); border-bottom:1px solid rgba(0,0,0,0.06); }
     .modal-body { display:flex; gap:12px; padding:18px; align-items:center; justify-content:center; flex:1 1 auto; }
     .modal-body .main-wrap { flex:1 1 60%; display:flex; align-items:center; justify-content:center; }
     .modal-body img.main { max-width:100%; max-height:78vh; object-fit:contain; border-radius:6px; display:block; }
-    .thumbs { width:220px; max-width:30%; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; align-content:flex-start; }
+    .thumbs { width:260px; max-width:32%; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; align-content:flex-start; }
     .thumbs img { width:72px; height:72px; object-fit:cover; border-radius:6px; cursor:pointer; border:2px solid transparent; box-shadow:0 4px 14px rgba(0,0,0,0.06); }
     .thumbs img.active { border-color:var(--text); }
+
+    .modal-arrow { font-size:22px; cursor:pointer; padding:6px 8px; border-radius:6px; background:transparent; }
 
     @media(max-width:640px){
       .modal-body { flex-direction:column; padding:12px; }
@@ -91,27 +94,25 @@
   <main>
     <div id="catalog-grid">
 
-      <!-- existing items 0..13 kept as before (omitted commentually) -->
-      <!-- For brevity I include them again followed by the new ones -->
-
+      <!-- existing items (0..20) -->
       <!-- 0: Anillo Roseta -->
       <div class="item item-anillos" data-index="0">
         <div class="zoom-btn" onclick="openZoom(0,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771363353/IMG_8184_lrw67a.heic" alt="Anillo Roseta - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771363354/IMG_8193_nwksub.heic" alt="Anillo Roseta - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771363352/IMG_8186_ek1a82.heic" alt="Anillo Roseta - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363353/IMG_8184_lrw67a.heic" alt="Anillo Roseta - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363354/IMG_8193_nwksub.heic" alt="Anillo Roseta - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771363352/IMG_8186_ek1a82.heic" alt="Anillo Roseta - 3"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo Roseta y diamantes 790€</h3></div>
       </div>
 
-      <!-- 1: Pendientes -->
+      <!-- 1: Pendientes flor de plata -->
       <div class="item item-pendientes" data-index="1">
         <div class="zoom-btn" onclick="openZoom(1,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771364336/IMG_8011_w7wtrn.heic" alt="Pendientes - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771364337/IMG_8012_aah1di.heic" alt="Pendientes - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771364337/IMG_8014_nlqmvx.heic" alt="Pendientes - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364336/IMG_8011_w7wtrn.heic" alt="Pendientes - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364337/IMG_8012_aah1di.heic" alt="Pendientes - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364337/IMG_8014_nlqmvx.heic" alt="Pendientes - 3"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Pendientes flor de plata 275€</h3></div>
       </div>
@@ -120,9 +121,9 @@
       <div class="item item-anillos" data-index="2">
         <div class="zoom-btn" onclick="openZoom(2,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771364554/IMG_8204_i9nuxt.heic" alt="Anillo solitario - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771364554/IMG_8209_ulggca.heic" alt="Anillo solitario - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771364554/IMG_8207_yha6ap.heic" alt="Anillo solitario - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364554/IMG_8204_i9nuxt.heic" alt="Anillo solitario - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364554/IMG_8209_ulggca.heic" alt="Anillo solitario - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771364554/IMG_8207_yha6ap.heic" alt="Anillo solitario - 3"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo solitario con diamante 390€</h3></div>
       </div>
@@ -131,8 +132,8 @@
       <div class="item item-broches" data-index="3">
         <div class="zoom-btn" onclick="openZoom(3,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771365340/IMG_8001_w9tfm6.heic" alt="Broche - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771365020/IMG_7998_k4dk5u.heic" alt="Broche - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771365340/IMG_8001_w9tfm6.heic" alt="Broche - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771365020/IMG_7998_k4dk5u.heic" alt="Broche - 2"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Broche Art Deco diamante 290€</h3></div>
       </div>
@@ -141,19 +142,19 @@
       <div class="item item-anillos" data-index="4">
         <div class="zoom-btn" onclick="openZoom(4,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771365581/IMG_7933_nzuj0q.heic" alt="Anillo Art Deco - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771365595/IMG_7940_xbfncz.heic" alt="Anillo Art Deco - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771365593/IMG_7939_yjio2s.heic" alt="Anillo Art Deco - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771365581/IMG_7933_nzuj0q.heic" alt="Anillo Art Deco - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771365595/IMG_7940_xbfncz.heic" alt="Anillo Art Deco - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771365593/IMG_7939_yjio2s.heic" alt="Anillo Art Deco - 3"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo solitario Art Deco 320€</h3></div>
       </div>
 
-      <!-- 5: Collar perlas (nuevo) -->
+      <!-- 5: Collar perlas cierre flor -->
       <div class="item item-collares" data-index="5">
         <div class="zoom-btn" onclick="openZoom(5,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771366493/IMG_8043_vyzbaz.heic" alt="Collar - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771366581/IMG_8046_pz9ev7.heic" alt="Collar - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771366493/IMG_8043_vyzbaz.heic" alt="Collar - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771366581/IMG_8046_pz9ev7.heic" alt="Collar - 2"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Collar perlas cierre flor 120€</h3></div>
       </div>
@@ -162,8 +163,8 @@
       <div class="item item-broches" data-index="6">
         <div class="zoom-btn" onclick="openZoom(6,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771367532/IMG_7992_y63gas.heic" alt="Broche plata - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771367532/IMG_7991_q5s9rl.heic" alt="Broche plata - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771367532/IMG_7992_y63gas.heic" alt="Broche plata - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771367532/IMG_7991_q5s9rl.heic" alt="Broche plata - 2"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Broche de plata 90€</h3></div>
       </div>
@@ -172,9 +173,9 @@
       <div class="item item-anillos" data-index="7">
         <div class="zoom-btn" onclick="openZoom(7,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771367814/IMG_8222_fsvauc.heic" alt="Anillo flor - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771367813/IMG_8224_d2sdea.heic" alt="Anillo flor - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771367814/IMG_8227_acogrt.heic" alt="Anillo flor - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771367814/IMG_8222_fsvauc.heic" alt="Anillo flor - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771367813/IMG_8224_d2sdea.heic" alt="Anillo flor - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771367814/IMG_8227_acogrt.heic" alt="Anillo flor - 3"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo flor con zafiros 190€</h3></div>
       </div>
@@ -183,9 +184,9 @@
       <div class="item item-anillos" data-index="8">
         <div class="zoom-btn" onclick="openZoom(8,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771368277/IMG_7868_khab2y.heic" alt="Anillo Daisy - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771368278/IMG_7873_f6snwy.heic" alt="Anillo Daisy - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771368280/IMG_7871_nxcciv.heic" alt="Anillo Daisy - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771368277/IMG_7868_khab2y.heic" alt="Daisy - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771368278/IMG_7873_f6snwy.heic" alt="Daisy - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771368280/IMG_7871_nxcciv.heic" alt="Daisy - 3"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo Daisy Art Deco 290€</h3></div>
       </div>
@@ -194,8 +195,8 @@
       <div class="item item-collares" data-index="9">
         <div class="zoom-btn" onclick="openZoom(9,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771368463/IMG_8053_ecpr33.heic" alt="Collar perlas - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771368460/IMG_8051_i3s4fj.heic" alt="Collar perlas - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771368463/IMG_8053_ecpr33.heic" alt="Collar perlas - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771368460/IMG_8051_i3s4fj.heic" alt="Collar perlas - 2"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Collar perlas 75€</h3></div>
       </div>
@@ -204,7 +205,7 @@
       <div class="item item-anillos" data-index="10">
         <div class="zoom-btn" onclick="openZoom(10,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771368590/IMG_8099_sd4apo.heic" alt="Anillo lanzadera - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771368590/IMG_8099_sd4apo.heic" alt="Anillo lanzadera"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo plata lanzadera 120€</h3></div>
       </div>
@@ -213,8 +214,8 @@
       <div class="item item-anillos" data-index="11">
         <div class="zoom-btn" onclick="openZoom(11,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771368989/IMG_8215_vcyqi2.heic" alt="Anillo crossover - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771368988/IMG_8219_vbts1r.heic" alt="Anillo crossover - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771368989/IMG_8215_vcyqi2.heic" alt="Crossover - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771368988/IMG_8219_vbts1r.heic" alt="Crossover - 2"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo crossover 290€</h3></div>
       </div>
@@ -223,34 +224,32 @@
       <div class="item item-anillos" data-index="12">
         <div class="zoom-btn" onclick="openZoom(12,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369143/IMG_7893_nmysej.heic" alt="Anillo tresillo - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369176/IMG_7894_g7u716.heic" alt="Anillo tresillo - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369184/IMG_7902_fhgkh4.heic" alt="Anillo tresillo - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369143/IMG_7893_nmysej.heic" alt="Tresillo - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369176/IMG_7894_g7u716.heic" alt="Tresillo - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369184/IMG_7902_fhgkh4.heic" alt="Tresillo - 3"></div>
         </div>
-        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo tresillo diamantes 390€</h3></div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo tresillo diamanates 390€</h3></div>
       </div>
 
-      <!-- 13: Anillo oro Art Deco (4 imágenes) -->
+      <!-- 13: Anillo oro Art Deco 225€ (4 imágenes) -->
       <div class="item item-anillos" data-index="13">
         <div class="zoom-btn" onclick="openZoom(13,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369343/IMG_7987_fgwklq.heic" alt="Anillo oro Art Deco - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369301/IMG_7980_it8tyt.heic" alt="Anillo oro Art Deco - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369341/IMG_7985_qlzy2k.heic" alt="Anillo oro Art Deco - 3"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369303/IMG_7983_pasy4w.heic" alt="Anillo oro Art Deco - 4"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369343/IMG_7987_fgwklq.heic" alt="Art Deco oro -1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369301/IMG_7980_it8tyt.heic" alt="Art Deco oro -2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369341/IMG_7985_qlzy2k.heic" alt="Art Deco oro -3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369303/IMG_7983_pasy4w.heic" alt="Art Deco oro -4"></div>
         </div>
-        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo oro Art Deco</h3></div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo oro Art Deco 225€</h3></div>
       </div>
-
-      <!-- NEW items from your latest message (indices 14..19) -->
 
       <!-- 14: Pendientes plata aguamarina 120€ -->
       <div class="item item-pendientes" data-index="14">
         <div class="zoom-btn" onclick="openZoom(14,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369786/IMG_8024_mkkf8k.heic" alt="Pendientes aguamarina - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369782/IMG_8020_yamzfv.heic" alt="Pendientes aguamarina - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369784/IMG_8021_koqgon.heic" alt="Pendientes aguamarina - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369786/IMG_8024_mkkf8k.heic" alt="Pendientes aguamarina -1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369782/IMG_8020_yamzfv.heic" alt="Pendientes aguamarina -2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369784/IMG_8021_koqgon.heic" alt="Pendientes aguamarina -3"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Pendientes plata aguamarina 120€</h3></div>
       </div>
@@ -259,10 +258,10 @@
       <div class="item item-anillos" data-index="15">
         <div class="zoom-btn" onclick="openZoom(15,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369952/IMG_7860_lvcx2l.heic" alt="Anillo zafiro - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369963/IMG_7865_isr9kv.heic" alt="Anillo zafiro - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369961/IMG_7864_l3houj.heic" alt="Anillo zafiro - 3"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771369954/IMG_7863_byksy7.heic" alt="Anillo zafiro - 4"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369952/IMG_7860_lvcx2l.heic" alt="Zafiro -1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369963/IMG_7865_isr9kv.heic" alt="Zafiro -2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369961/IMG_7864_l3houj.heic" alt="Zafiro -3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771369954/IMG_7863_byksy7.heic" alt="Zafiro -4"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo oro, diamantes y zafiro 490€</h3></div>
       </div>
@@ -271,22 +270,22 @@
       <div class="item item-anillos" data-index="16">
         <div class="zoom-btn" onclick="openZoom(16,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370134/IMG_8195_qtkpym.heic" alt="Anillo octogonal - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370143/IMG_8200_v4w0oa.heic" alt="Anillo octogonal - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370137/IMG_8196_tonw3w.heic" alt="Anillo octogonal - 3"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370139/IMG_8198_bv1v1b.heic" alt="Anillo octogonal - 4"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370134/IMG_8195_qtkpym.heic" alt="Octogonal -1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370143/IMG_8200_v4w0oa.heic" alt="Octogonal -2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370137/IMG_8196_tonw3w.heic" alt="Octogonal -3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370139/IMG_8198_bv1v1b.heic" alt="Octogonal -4"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo Art Deco octogonal 690€</h3></div>
       </div>
 
-      <!-- 17: Anillo crossover base platino 350€ -->
+      <!-- 17: Anillo crossover con base de platino 350€ -->
       <div class="item item-anillos" data-index="17">
         <div class="zoom-btn" onclick="openZoom(17,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370307/IMG_7978_lmzzbz.heic" alt="Anillo crossover platino - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370281/IMG_7969_m9oemc.heic" alt="Anillo crossover platino - 2"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370310/IMG_7975_eajwtv.heic" alt="Anillo crossover platino - 3"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370313/IMG_7974_sdma9l.heic" alt="Anillo crossover platino - 4"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370307/IMG_7978_lmzzbz.heic" alt="Crossover platino -1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370281/IMG_7969_m9oemc.heic" alt="Crossover platino -2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370310/IMG_7975_eajwtv.heic" alt="Crossover platino -3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370313/IMG_7974_sdma9l.heic" alt="Crossover platino -4"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo crossover con base de platino 350€</h3></div>
       </div>
@@ -295,8 +294,8 @@
       <div class="item item-anillos" data-index="18">
         <div class="zoom-btn" onclick="openZoom(18,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370492/IMG_7888_n5nuax.heic" alt="Anillo circonitas - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370451/IMG_7892_jnwdjf.heic" alt="Anillo circonitas - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370492/IMG_7888_n5nuax.heic" alt="Circonitas -1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370451/IMG_7892_jnwdjf.heic" alt="Circonitas -2"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo oro circonitas 180€</h3></div>
       </div>
@@ -305,10 +304,78 @@
       <div class="item item-pendientes" data-index="19">
         <div class="zoom-btn" onclick="openZoom(19,0)">+</div>
         <div class="carousel" aria-hidden="false">
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370660/IMG_8005_olwfxo.heic" alt="Pendientes espinela - 1"></div>
-          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_800,q_auto/v1771370664/IMG_8008_lbudho.heic" alt="Pendientes espinela - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370660/IMG_8005_olwfxo.heic" alt="Pendientes espinela -1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771370664/IMG_8008_lbudho.heic" alt="Pendientes espinela -2"></div>
         </div>
         <div class="meta mt-3 text-center"><h3 class="italic uppercase">Pendientes espinela granates 120€</h3></div>
+      </div>
+
+      <!-- 20: Anillo con zafiro 290€ -->
+      <div class="item item-anillos" data-index="20">
+        <div class="zoom-btn" onclick="openZoom(20,0)">+</div>
+        <div class="carousel" aria-hidden="false">
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404089/IMG_7955_e5jncm.heic" alt="Anillo zafiro - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404090/IMG_7964_andzal.heic" alt="Anillo zafiro - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404089/IMG_7960_zfhldx.heic" alt="Anillo zafiro - 3"></div>
+        </div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo con zafiro 290€</h3></div>
+      </div>
+
+      <!-- NEW ITEMS ADDED BELOW (21..) -->
+
+      <!-- 21: Anillo esmeralda y diamantes 650€ -->
+      <div class="item item-anillos" data-index="21">
+        <div class="zoom-btn" onclick="openZoom(21,0)">+</div>
+        <div class="carousel" aria-hidden="false">
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404313/IMG_7878_kqtznc.heic" alt="Esmeralda - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404329/IMG_7882_cwdrwg.heic" alt="Esmeralda - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404331/IMG_7886_oo26k9.heic" alt="Esmeralda - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404329/IMG_7884_j21naf.heic" alt="Esmeralda - 4"></div>
+        </div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo con esmeralda y diamantes 650€</h3></div>
+      </div>
+
+      <!-- 22: Anillo camafeo 390€ -->
+      <div class="item item-anillos" data-index="22">
+        <div class="zoom-btn" onclick="openZoom(22,0)">+</div>
+        <div class="carousel" aria-hidden="false">
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404636/IMG_7947_byb4zf.heic" alt="Camafeo - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404648/IMG_7954_bt3qwx.heic" alt="Camafeo - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404646/IMG_7949_ksy2la.heic" alt="Camafeo - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404647/IMG_7951_abjcre.heic" alt="Camafeo - 4"></div>
+        </div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo camafeo 390€</h3></div>
+      </div>
+
+      <!-- 23: Anillo granates 250€ -->
+      <div class="item item-anillos" data-index="23">
+        <div class="zoom-btn" onclick="openZoom(23,0)">+</div>
+        <div class="carousel" aria-hidden="false">
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404837/IMG_7916_h8axoo.heic" alt="Granates - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404848/IMG_7922_zfqsgg.heic" alt="Granates - 2"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404847/IMG_7919_iyiplk.heic" alt="Granates - 3"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404847/IMG_7920_r4x04m.heic" alt="Granates - 4"></div>
+        </div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo granates 250€</h3></div>
+      </div>
+
+      <!-- 24: Anillo alianza martillada 110€ -->
+      <div class="item item-anillos" data-index="24">
+        <div class="zoom-btn" onclick="openZoom(24,0)">+</div>
+        <div class="carousel" aria-hidden="false">
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404974/IMG_7929_kfjrli.heic" alt="Alianza - 1"></div>
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771404977/IMG_7931_cfreyo.heic" alt="Alianza - 2"></div>
+        </div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Anillo alianza martillada 110€</h3></div>
+      </div>
+
+      <!-- 25: Pendientes perlas y marcasita 350€ -->
+      <div class="item item-pendientes" data-index="25">
+        <div class="zoom-btn" onclick="openZoom(25,0)">+</div>
+        <div class="carousel" aria-hidden="false">
+          <div class="carousel-item"><img src="https://res.cloudinary.com/do7pipzqv/image/upload/w_800,q_auto,f_auto/v1771405143/IMG_8036_pe4ye8.heic" alt="Pendientes perlas - 1"></div>
+        </div>
+        <div class="meta mt-3 text-center"><h3 class="italic uppercase">Pendientes con perlas y marcasita 350€</h3></div>
       </div>
 
     </div>
@@ -320,8 +387,8 @@
       <div class="modal-header">
         <span class="text-xs uppercase tracking-widest text-gray-500">Detalle de pieza</span>
         <div style="display:flex; gap:8px; align-items:center;">
-          <div id="prev-btn" class="modal-arrow" style="cursor:pointer;padding:6px 8px;font-size:20px;">&lsaquo;</div>
-          <div id="next-btn" class="modal-arrow" style="cursor:pointer;padding:6px 8px;font-size:20px;">&rsaquo;</div>
+          <div id="prev-btn" class="modal-arrow" aria-label="Anterior">&lsaquo;</div>
+          <div id="next-btn" class="modal-arrow" aria-label="Siguiente">&rsaquo;</div>
           <button onclick="closeZoom()" style="font-size:22px; background:none; border:0; cursor:pointer" aria-label="Cerrar">&times;</button>
         </div>
       </div>
@@ -335,103 +402,158 @@
   </div>
 
   <script>
-    /* ================= DATA (f_jpg,w_1200 for modal images) ================= */
+    /* ================= DATA ================= */
     const productsImages = [
+      // 0
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771363353/IMG_8184_lrw67a.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771363354/IMG_8193_nwksub.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771363352/IMG_8186_ek1a82.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771363353/IMG_8184_lrw67a.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771363354/IMG_8193_nwksub.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771363352/IMG_8186_ek1a82.heic"
       ],
+      // 1
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771364336/IMG_8011_w7wtrn.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771364337/IMG_8012_aah1di.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771364337/IMG_8014_nlqmvx.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364336/IMG_8011_w7wtrn.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364337/IMG_8012_aah1di.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364337/IMG_8014_nlqmvx.heic"
       ],
+      // 2
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771364554/IMG_8204_i9nuxt.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771364554/IMG_8209_ulggca.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771364554/IMG_8207_yha6ap.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364554/IMG_8204_i9nuxt.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364554/IMG_8209_ulggca.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771364554/IMG_8207_yha6ap.heic"
       ],
+      // 3
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771365340/IMG_8001_w9tfm6.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771365020/IMG_7998_k4dk5u.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771365340/IMG_8001_w9tfm6.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771365020/IMG_7998_k4dk5u.heic"
       ],
+      // 4
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771365581/IMG_7933_nzuj0q.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771365595/IMG_7940_xbfncz.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771365593/IMG_7939_yjio2s.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771365581/IMG_7933_nzuj0q.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771365595/IMG_7940_xbfncz.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771365593/IMG_7939_yjio2s.heic"
       ],
+      // 5
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771366493/IMG_8043_vyzbaz.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771366581/IMG_8046_pz9ev7.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771366493/IMG_8043_vyzbaz.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771366581/IMG_8046_pz9ev7.heic"
       ],
+      // 6
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771367532/IMG_7992_y63gas.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771367532/IMG_7991_q5s9rl.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771367532/IMG_7992_y63gas.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771367532/IMG_7991_q5s9rl.heic"
       ],
+      // 7
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771367814/IMG_8222_fsvauc.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771367813/IMG_8224_d2sdea.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771367814/IMG_8227_acogrt.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771367814/IMG_8222_fsvauc.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771367813/IMG_8224_d2sdea.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771367814/IMG_8227_acogrt.heic"
       ],
+      // 8
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771368277/IMG_7868_khab2y.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771368278/IMG_7873_f6snwy.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771368280/IMG_7871_nxcciv.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771368277/IMG_7868_khab2y.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771368278/IMG_7873_f6snwy.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771368280/IMG_7871_nxcciv.heic"
       ],
+      // 9
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771368463/IMG_8053_ecpr33.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771368460/IMG_8051_i3s4fj.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771368463/IMG_8043_vyzbaz.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771368460/IMG_8046_pz9ev7.heic"
       ],
+      // 10
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771368590/IMG_8099_sd4apo.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771368590/IMG_8099_sd4apo.heic"
       ],
+      // 11
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771368989/IMG_8215_vcyqi2.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771368988/IMG_8219_vbts1r.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771368989/IMG_8215_vcyqi2.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771368988/IMG_8219_vbts1r.heic"
       ],
+      // 12
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369143/IMG_7893_nmysej.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369176/IMG_7894_g7u716.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369184/IMG_7902_fhgkh4.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369143/IMG_7893_nmysej.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369176/IMG_7894_g7u716.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369184/IMG_7902_fhgkh4.heic"
       ],
+      // 13
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369343/IMG_7987_fgwklq.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369301/IMG_7980_it8tyt.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369341/IMG_7985_qlzy2k.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369303/IMG_7983_pasy4w.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369343/IMG_7987_fgwklq.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369301/IMG_7980_it8tyt.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369341/IMG_7985_qlzy2k.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369303/IMG_7983_pasy4w.heic"
       ],
-      /* newly added */
+      // 14
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369786/IMG_8024_mkkf8k.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369782/IMG_8020_yamzfv.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369784/IMG_8021_koqgon.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369786/IMG_8024_mkkf8k.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369782/IMG_8020_yamzfv.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369784/IMG_8021_koqgon.heic"
       ],
+      // 15
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369952/IMG_7860_lvcx2l.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369963/IMG_7865_isr9kv.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369961/IMG_7864_l3houj.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771369954/IMG_7863_byksy7.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369952/IMG_7860_lvcx2l.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369963/IMG_7865_isr9kv.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369961/IMG_7864_l3houj.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771369954/IMG_7863_byksy7.heic"
       ],
+      // 16
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370134/IMG_8195_qtkpym.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370143/IMG_8200_v4w0oa.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370137/IMG_8196_tonw3w.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370139/IMG_8198_bv1v1b.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370134/IMG_8195_qtkpym.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370143/IMG_8200_v4w0oa.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370137/IMG_8196_tonw3w.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370139/IMG_8198_bv1v1b.heic"
       ],
+      // 17
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370307/IMG_7978_lmzzbz.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370281/IMG_7969_m9oemc.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370310/IMG_7975_eajwtv.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370313/IMG_7974_sdma9l.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370307/IMG_7978_lmzzbz.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370281/IMG_7969_m9oemc.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370310/IMG_7975_eajwtv.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370313/IMG_7974_sdma9l.heic"
       ],
+      // 18
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370492/IMG_7888_n5nuax.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370451/IMG_7892_jnwdjf.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370492/IMG_7888_n5nuax.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370451/IMG_7892_jnwdjf.heic"
       ],
+      // 19
       [
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370660/IMG_8005_olwfxo.heic",
-        "https://res.cloudinary.com/do7pipzqv/image/upload/f_jpg,w_1200,q_auto/v1771370664/IMG_8008_lbudho.heic"
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370660/IMG_8005_olwfxo.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771370664/IMG_8008_lbudho.heic"
+      ],
+      // 20
+      [
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404089/IMG_7955_e5jncm.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404090/IMG_7964_andzal.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404089/IMG_7960_zfhldx.heic"
+      ],
+      // 21 (nuevo)
+      [
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404313/IMG_7878_kqtznc.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404329/IMG_7882_cwdrwg.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404331/IMG_7886_oo26k9.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404329/IMG_7884_j21naf.heic"
+      ],
+      // 22 (nuevo)
+      [
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404636/IMG_7947_byb4zf.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404648/IMG_7954_bt3qwx.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404646/IMG_7949_ksy2la.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404647/IMG_7951_abjcre.heic"
+      ],
+      // 23 (nuevo)
+      [
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404837/IMG_7916_h8axoo.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404848/IMG_7922_zfqsgg.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404847/IMG_7919_iyiplk.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404847/IMG_7920_r4x04m.heic"
+      ],
+      // 24 (nuevo)
+      [
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404974/IMG_7929_kfjrli.heic",
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771404977/IMG_7931_cfreyo.heic"
+      ],
+      // 25 (nuevo)
+      [
+        "https://res.cloudinary.com/do7pipzqv/image/upload/w_1200,q_auto,f_auto/v1771405143/IMG_8036_pe4ye8.heic"
       ]
     ];
 
@@ -448,14 +570,20 @@
       "Collar perlas 75€",
       "Anillo plata lanzadera 120€",
       "Anillo crossover 290€",
-      "Anillo tresillo diamantes 390€",
-      "Anillo oro Art Deco",
+      "Anillo tresillo diamanates 390€",
+      "Anillo oro Art Deco 225€",
       "Pendientes plata aguamarina 120€",
       "Anillo oro, diamantes y zafiro 490€",
       "Anillo Art Deco octogonal 690€",
       "Anillo crossover con base de platino 350€",
       "Anillo oro circonitas 180€",
-      "Pendientes espinela granates 120€"
+      "Pendientes espinela granates 120€",
+      "Anillo con zafiro 290€",
+      "Anillo con esmeralda y diamantes 650€",
+      "Anillo camafeo 390€",
+      "Anillo granates 250€",
+      "Anillo alianza martillada 110€",
+      "Pendientes con perlas y marcasita 350€"
     ];
 
     const productDescriptions = [
@@ -465,20 +593,26 @@
       "Broche art deco con circulo platino y diamante oro 18ct",
       "Anillo solitario Art Deco con diamante, base de platino y oro 18ct",
       "Collar de perlas naturales doble con cierre de plata",
-      "Broche de plata con marcasitas y diseño clásico",
-      "Anillo flor con zafiros de 9ct, diseño floral detallado",
+      "Broche de plata con marcasitas",
+      "Anillo flor con zafiros, oro 9ct",
       "Anillo Daisy Art Deco con piedra ágata, oro 9ct",
       "Collar perlas pequeñas una vuelta con cierre plata",
       "Anillo lanzadera de plata con marcasitas",
-      "Anillo crossover con base platino y detalles en oro",
-      "Anillo tresillo de diamantes con base de platino en oro 18ct",
-      "Anillo oro rectangular Art Deco con marcasitas oro 19ct",
-      "Pendientes de plata con aguamarina y marcasitas",
-      "Anillo zafiro central con diamantes alrededor, oro 18ct",
-      "Anillo art deco octogonal con diamante central, oro 18ct",
-      "Anillo crossover con base de platino y oro de 18ct",
-      "Anillo oro sencillo con circonitas, oro 19ct",
-      "Pendientes de plata con marcasitas y espinela (granate)"
+      "Anillo crossover con base platino y oro de 15ct",
+      "Anillo tresillo diamantes y base platino en oro 18ct",
+      "Anillo oro rectangular Art Deco con marcasitas, oro 19ct",
+      "Pendientes plata con marcasitas y aguamarina",
+      "Anillo zafiro central con diamantes alrededor oro 18ct",
+      "Anillo art deco octogonal con diamante central oro 18ct",
+      "Anillo crossover con base platino y oro 18ct",
+      "Anillo oro sencillo con circonitas oro 19ct",
+      "Pendientes plata con marcasitas y espinela granate",
+      "Anillo con zafiro azul claro y diamantes, oro 9ct",
+      "Anillo esmeralda y diamantes, oro 18ct",
+      "Anillo camafeo en oro 18ct",
+      "Anillo con cinco granates, oro 14ct",
+      "Anillo tipo alianza martillada, oro 19ct",
+      "Pendientes largos de plata con perlas de río y marcasitas"
     ];
 
     /* Pon aquí tu número (sin + ni espacios) */
@@ -495,7 +629,7 @@
 
     /* ============== INIT ============== */
     document.addEventListener('DOMContentLoaded', () => {
-      // Stop zoom button clicks from toggling overlays (keep onclick)
+      // Stop zoom button clicks from toggling overlays
       document.querySelectorAll('.zoom-btn').forEach(btn => btn.addEventListener('click', e => e.stopPropagation()));
 
       // For each product item, add overlays to each carousel-item
@@ -513,7 +647,7 @@
             modalImgUrl = productsImages[productIndex][imgIdx];
           } else {
             const imgEl = ci.querySelector('img');
-            modalImgUrl = imgEl ? imgEl.src.replace('/w_800,q_auto,f_auto/', '/w_1200,q_auto,f_auto/').replace('/f_jpg,w_800,q_auto/', '/f_jpg,w_1200,q_auto/') : '';
+            modalImgUrl = imgEl ? imgEl.src.replace('/w_800,q_auto,f_auto/', '/w_1200,q_auto,f_auto/') : '';
           }
 
           const messageText = `Hola! estoy interesado en esta pieza: ${productTitles[productIndex]}. Imagen: ${modalImgUrl}`;
@@ -525,7 +659,8 @@
           overlay.innerHTML = `<div>
               <div>${desc}</div>
               <div class="wa-wrap">
-                <a class="whatsapp-link" href="${waUrl}" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+                <a class="whatsapp-link" href="${waUrl}" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp" title="Contactar por WhatsApp">
+                  <!-- WhatsApp icon (white) -->
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
                     <path d="M19.11 17.44c-.29-.14-1.71-.84-1.97-.94-.26-.10-.45-.14-.64.14-.19.29-.74.94-.91 1.13-.17.19-.34.21-.63.07-.29-.14-1.23-.45-2.34-1.43-.86-.77-1.44-1.71-1.61-2-.17-.29-.02-.45.13-.59.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.10-.19.05-.36-.02-.51-.07-.14-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49-.17-.01-.36-.01-.55-.01-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.03 2.79 1.17 2.98.14.19 2.03 3.1 4.93 4.35.69.30 1.23.48 1.65.61.69.22 1.31.19 1.81.12.55-.08 1.71-.70 1.95-1.38.24-.67.24-1.25.17-1.38-.07-.13-.26-.21-.55-.36z"/>
                     <path d="M16.02 2.67C8.68 2.67 2.67 8.68 2.67 16c0 2.59.74 5.11 2.14 7.27L2 30l6.95-2.73c2.05 1.12 4.37 1.71 6.78 1.71 7.34 0 13.35-6.01 13.35-13.35 0-7.32-6.01-13.35-13.35-13.35zm0 23.7c-2.19 0-4.33-.59-6.18-1.71l-.44-.26-4.12 1.62 1.61-4.01-.29-.41c-1.18-1.79-1.8-3.88-1.8-6.03 0-6.11 4.97-11.09 11.09-11.09 6.11 0 11.09 4.97 11.09 11.09 0 6.11-4.98 11.09-11.09 11.09z"/>
@@ -580,7 +715,7 @@
 
     function openZoom(productIndex, imageIndex = 0) {
       const imgs = productsImages[productIndex];
-      if (!imgs || imgs.length === 0) { console.warn('openZoom: no images for product', productIndex); return; }
+      if (!imgs || imgs.length === 0) return;
       currentProduct = productIndex;
       currentIndex = imageIndex || 0;
       renderModal();
