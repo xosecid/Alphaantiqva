@@ -94,7 +94,7 @@
   <main>
     <div id="catalog-grid">
 
-      <!-- existing items (0..20) -->
+      <!-- existing items (0..25) -->
       <!-- 0: Anillo Roseta -->
       <div class="item item-anillos" data-index="0">
         <div class="zoom-btn" onclick="openZoom(0,0)">+</div>
@@ -627,12 +627,40 @@
       }
     }
 
+    /* ============== UTILS ============== */
+
+    // Reorder items: first items WITHOUT "vendido" in title, then items WITH "vendido".
+    function reorderSoldToEnd() {
+      const grid = document.getElementById('catalog-grid');
+      if (!grid) return;
+      // snapshot children into array
+      const items = Array.from(grid.querySelectorAll('.item'));
+      // partition
+      const available = [];
+      const sold = [];
+      items.forEach(it => {
+        const h3 = it.querySelector('.meta h3');
+        const text = h3 ? h3.innerText || '' : '';
+        if (/vendido/i.test(text)) sold.push(it);
+        else available.push(it);
+      });
+      // only reorder if there's at least one sold item and at least one available item
+      if (sold.length === 0) return;
+      // remove current children and append in new order
+      // (we'll append available first, then sold; this preserves original relative order inside each group)
+      available.forEach(node => grid.appendChild(node));
+      sold.forEach(node => grid.appendChild(node));
+    }
+
     /* ============== INIT ============== */
     document.addEventListener('DOMContentLoaded', () => {
-      // Stop zoom button clicks from toggling overlays
+      // 1) Reorder DOM so 'vendido' items go to the end BEFORE building overlays/handlers
+      reorderSoldToEnd();
+
+      // 2) Stop zoom button clicks from toggling overlays
       document.querySelectorAll('.zoom-btn').forEach(btn => btn.addEventListener('click', e => e.stopPropagation()));
 
-      // For each product item, add overlays to each carousel-item
+      // 3) For each product item, add overlays to each carousel-item
       document.querySelectorAll('.item').forEach(item => {
         const productIndex = Number(item.dataset.index ?? -1);
         const carouselItems = item.querySelectorAll('.carousel-item');
